@@ -30,7 +30,7 @@ const productSchema = new Schema({
         userId: { type: Types.ObjectId, ref:'User' },
         quantity: { type: Number, default: 1 },
     }],
-    numOfSoldItems: { type: Number, default: 0 },
+    sold: { type: Number, default: 0 },
     avgRating: { type: Number, default: 0 },
     totalRating: { type: Number, default: 0 },
     numOfRating: { type: Number, default: 0 },

@@ -88,8 +88,10 @@ export const createOrder = asyncHandler(async (req, res, next) => {
     // decreasse product stock
     for (const product of products) {
         await productModel.updateOne({ _id: product.productId }, {
-            $inc: { stock: -parseInt(product.quantity) },
-            $inc: { numOfSoldItems: 1 }
+            $inc: { 
+                stock: -parseInt(product.quantity),
+                numOfSoldItems: 1
+            },
         });
     }
 
@@ -170,7 +172,6 @@ export const createOrder = asyncHandler(async (req, res, next) => {
 
         return res.status(201).json({ message: "Done", order, session, url: session.url });
     }
-
 
 
     return res.status(201).json({ message: "Done", order });
