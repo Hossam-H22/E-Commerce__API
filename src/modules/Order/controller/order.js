@@ -106,34 +106,34 @@ export const createOrder = asyncHandler(async (req, res, next) => {
         await deleteItemsFromCart(req.user._id, productIds);
     }
 
-    // generate pdf
-    const invoice = {
-        shipping: {
-            name: req.user.userName,
-            address: order.address,
-            country: "Egypt",
-        },
-        items: order.products,
-        subtotal: order.subtotal,
-        total: order.finalPrice,
-        invoice_nr: order._id,
-        date: order.createdAt
-    };
-    await createInvoice(invoice, "invoice.pdf");
+    // // generate pdf
+    // const invoice = {
+    //     shipping: {
+    //         name: req.user.userName,
+    //         address: order.address,
+    //         country: "Egypt",
+    //     },
+    //     items: order.products,
+    //     subtotal: order.subtotal,
+    //     total: order.finalPrice,
+    //     invoice_nr: order._id,
+    //     date: order.createdAt
+    // };
+    // await createInvoice(invoice, "invoice.pdf");
 
 
-    // send email to notify User
-    if (!await sendEmail({
-        to: req.user.email, subject: "Invoice", attachments: [
-            {
-                path: "invoice.pdf",
-                contentType: 'application/pdf',
-            },
-        ]
-    })
-    ) {
-        return next(new Error("Rejected Emal", { cause: 400 }))
-    }
+    // // send email to notify User
+    // if (!await sendEmail({
+    //     to: req.user.email, subject: "Invoice", attachments: [
+    //         {
+    //             path: "invoice.pdf",
+    //             contentType: 'application/pdf',
+    //         },
+    //     ]
+    // })
+    // ) {
+    //     return next(new Error("Rejected Emal", { cause: 400 }))
+    // }
 
 
     // card payment
