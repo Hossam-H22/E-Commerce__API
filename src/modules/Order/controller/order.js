@@ -90,7 +90,7 @@ export const createOrder = asyncHandler(async (req, res, next) => {
         await productModel.updateOne({ _id: product.productId }, {
             $inc: { 
                 stock: -parseInt(product.quantity),
-                numOfSoldItems: 1
+                sold: 1
             },
         });
     }
