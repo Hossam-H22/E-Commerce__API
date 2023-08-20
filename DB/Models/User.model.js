@@ -55,6 +55,11 @@ const userSchema = new Schema({
     wishlist: {
         type: [{ type: Types.ObjectId, ref: 'Product' }],
     },
+    provider: {
+        type: String,
+        default: 'SYSTEM',
+        enum: ['SYSTEM', 'GOOGLE']
+    }
 }, {
     timestamps: true,
 });

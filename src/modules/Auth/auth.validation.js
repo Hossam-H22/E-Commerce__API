@@ -26,6 +26,10 @@ export const login = joi.object({
     password: generalFields.password,
 }).required();
 
+export const loginWithGmail = joi.object({
+    idToken: joi.string().min(1).required(),
+}).required();
+
 
 export const confirmation = joi.object({
     frontUrl: joi.string(),

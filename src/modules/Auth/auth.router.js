@@ -10,15 +10,21 @@ import { fileUpload, fileValidation } from '../../utils/cloudMulter.js';
 const router = Router();
 
 router.post(
-    "/signup", 
-    fileUpload(fileValidation.image).single('image'), 
-    validation(validators.signup), 
+    "/signup",
+    fileUpload(fileValidation.image).single('image'),
+    validation(validators.signup),
     authController.signup
 );
 
 router.post(
-    "/login", 
-    validation(validators.login), 
+    "/loginWithGmail",
+    validation(validators.loginWithGmail),
+    authController.loginWithGmail
+);
+
+router.post(
+    "/login",
+    validation(validators.login),
     authController.login
 );
 
@@ -35,14 +41,14 @@ router.get(
 );
 
 router.patch(
-    "/forgetPassword", 
-    validation(validators.forgetPassword), 
+    "/forgetPassword",
+    validation(validators.forgetPassword),
     authController.forgetPassword
 );
 
 router.patch(
-    "/resetPassword", 
-    validation(validators.resetPassword), 
+    "/resetPassword",
+    validation(validators.resetPassword),
     authController.resetPassword
 );
 

@@ -3,8 +3,8 @@ import { compare, hash } from "./../../../utils/hashAndCompare.js";
 import { generateToken, verifyToken } from "./../../../utils/generateAndVerifyToken.js";
 import { asyncHandler } from "./../../../utils/errorHandling.js";
 import sendEmail from "./../../../utils/sendEmail.js";
+import { OAuth2Client } from 'google-auth-library'
 import { customAlphabet } from 'nanoid';
-
 
 
 export const signup = asyncHandler(async (req, res, next) => {
@@ -287,7 +287,7 @@ export const signup = asyncHandler(async (req, res, next) => {
   req.body.password = hashPassword;
 
   if (req.file) {
-    const { secure_url, public_id } = await cloudinary.uploader.upload(req.file.path, { folder: `${process.env.APP_NAME}/Category` });
+    const { secure_url, public_id } = await cloudinary.uploader.upload(req.file.path, { folder: `${process.env.APP_NAME}/User` });
     req.body.image = { secure_url, public_id };
   }
 
@@ -632,6 +632,98 @@ export const login = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ message: "Done", access_token, refresh_token });
 });
 
+export const loginWithGmail = asyncHandler(async (req, res, next) => {
+
+  const { idToken } = req.body;
+  const client = new OAuth2Client(process.env.CLIENT_ID);
+  async function verify() {
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: process.env.CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+      // Or, if multiple clients access the backend:
+      //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+    });
+    const payload = ticket.getPayload();
+    return payload;
+  }
+  const { email, email_verified, name, given_name, family_name, picture } = await verify();
+
+  if (!email_verified) {
+    return next(new Error("In-valid email", { cause: 400 }));
+  }
+
+  const user = await userModel.findOne({ email: email.toLowerCase() });
+
+  //login
+  if (user) {
+    // login
+    if (user.provider != 'GOOGLE') {
+      return next(new Error(`In-valid provider, true provider is ${user.provider}`, { cause: 400 }));
+    }
+
+    // geţ tokens
+    const access_token = generateToken({
+      payload: {
+        id: user._id,
+        isLoggedIn: true,
+        role: user.role,
+      },
+      expiresIn: 60 * 30,
+    });
+
+    const refresh_token = generateToken({
+      payload: {
+        id: user._id,
+        isLoggedIn: true,
+        role: user.role,
+      },
+      expiresIn: 60 * 60 * 24 * 365,
+    });
+    user.status = "online";
+    await user.save();
+    return res.status(200).json({ message: "Done", access_token, refresh_token });
+  }
+
+
+  // signup
+
+  const customPassword = customAlphabet('0123456789qwertyuiopasdfghjklzxcvbnm', 9);
+  const hashPassword = hash({ plainText: customPassword() });
+
+  const newUser = await userModel.create({ 
+    firstName: given_name, 
+    lastName: family_name, 
+    userName: name, 
+    email,
+    password: hashPassword,
+    image: { secure_url: picture },
+    confirmEmail: true,
+    provider: 'GOOGLE',
+    status: 'online',
+  });
+
+  // geţ tokens
+  const access_token = generateToken({
+    payload: {
+      id: newUser._id,
+      isLoggedIn: true,
+      role: newUser.role,
+    },
+    expiresIn: 60 * 30,
+  });
+
+  const refresh_token = generateToken({
+    payload: {
+      id: newUser._id,
+      isLoggedIn: true,
+      role: newUser.role,
+    },
+    expiresIn: 60 * 60 * 24 * 365,
+  });
+
+  return res.status(201).json({ message: "Done", access_token, refresh_token });
+});
+
 export const forgetPassword = asyncHandler(async (req, res, next) => {
   let { email } = req.body;
   email = email.toLowerCase();
@@ -722,7 +814,9 @@ export const forgetPassword = asyncHandler(async (req, res, next) => {
        */
       table {
         border-collapse: collapse !important;
-      }
+      }import { loginWithGmail } from './auth';
+import { signup } from './../auth.validation';
+
       a {
         color: #1a82e2;
       }
