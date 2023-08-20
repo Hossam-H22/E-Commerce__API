@@ -151,7 +151,7 @@ export const createOrder = asyncHandler(async (req, res, next) => {
             metadata: {
                 orderId: order._id.toString(),
             },
-            cancel_url: `${cancel_url || process.env.cancel_url}?orderId=${order._id.toString()}`,
+            cancel_url: `${cancel_url || process.env.CANCEL_URL}?orderId=${order._id.toString()}`,
             line_items: order.products.map(product => {
                 return {
                     price_data: {
@@ -165,7 +165,7 @@ export const createOrder = asyncHandler(async (req, res, next) => {
                 }
             }),
             discounts: req.body.couponId ? [{ coupon: req.body.couponId }] : [],
-            success_url: `${success_url || process.env.success_url}?orderId=${order._id.toString()}`,
+            success_url: `${success_url || process.env.SUCCESS_URL}?orderId=${order._id.toString()}`,
         });
 
         return res.status(201).json({ message: "Done", order, session, url: session.url });
