@@ -123,12 +123,14 @@ export const createOrder = asyncHandler(async (req, res, next) => {
 
 
     // send email to notify User
-    if (!await sendEmail({ to: req.user.email, subject: "Invoice", attachments: [
-        {
-            path: "invoice.pdf",
-            contentType: 'application/pdf',
-        },
-    ] }) 
+    if (!await sendEmail({
+        to: req.user.email, subject: "Invoice", attachments: [
+            {
+                path: "invoice.pdf",
+                contentType: 'application/pdf',
+            },
+        ]
+    })
     ) {
         return next(new Error("Rejected Emal", { cause: 400 }))
     }
@@ -137,7 +139,7 @@ export const createOrder = asyncHandler(async (req, res, next) => {
     // card payment
     if (order.paymentType == 'card') {
         const stripe = new Stripe(process.env.STRIPE_KEY);
-        if(req.body.coupon){
+        if (req.body.coupon) {
             const coupon = await stripe.coupons.create({ percent_off: req.body.coupon.amount, duration: 'once' });
             req.body.couponId = coupon.id;
         }
@@ -237,4 +239,26 @@ export const updateOrderStatusByAdmin = asyncHandler(async (req, res, next) => {
     }
 
     return res.status(200).json({ message: "Done" });
+});
+
+export const webhook = asyncHandler(async (req, res) => {
+
+    const stripe = new Stripe(process.env.STRIPE_KEY);
+    const sig = req.headers['stripe-signature'];
+    let event;
+    try {
+        event = stripe.webhooks.constructEvent(req.body, sig, process.env.END_POINT_SECRET_WEBHOOK);
+    } catch (err) {
+        res.status(400).send(`Webhook Error: ${err.message}`);
+        return;
+    }
+
+    const { orderId } = event.data.object.metadata
+    if(event.type != 'checkout.session.completed'){
+        await orderModel.updateOne({ _id: orderId }, { status: 'rejected' });
+        res.status(400).json({ message: "Rejected order" });
+    }
+    
+    await orderModel.updateOne({ _id: orderId }, { status: 'placed' });
+    res.status(200).json({ message: "Done" });
 });
