@@ -1,6 +1,12 @@
 
 import PDFDocument from "pdfkit"
 import fs from "fs"
+import path from "path";
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+
 
 export async function createInvoice(invoice, path) {
     let doc = new PDFDocument({ size: "A4", margin: 50 });
@@ -16,7 +22,7 @@ export async function createInvoice(invoice, path) {
 
 function generateHeader(doc) {
     doc
-        .image("dev_Software.png", 50, 45, { width: 50 })
+        .image(path.join(__dirname, '/../../dev_Software.png'), 50, 45, { width: 50 })
         .fillColor("#444444") 
         .fontSize(20)
         .text("E-Commerce Shop", 110, 57)
