@@ -7,7 +7,7 @@ import cloudinary from "./../../../utils/cloudinary.js";
 
 export const getCoupons = asyncHandler(async (req, res, next) => {
     const coupon = await couponModel.find({ isDeleted: false });
-    return res.status(201).json({ message: "Done", coupon});
+    return res.status(200).json({ message: "Done", coupon});
 });
 
 export const getCoupon = asyncHandler(async (req, res, next) => {
@@ -18,7 +18,7 @@ export const getCoupon = asyncHandler(async (req, res, next) => {
         return next(new Error('In-valid coupon Id', { cause: 404 }))
     }
 
-    return res.status(201).json({ message: "Done", coupon});
+    return res.status(200).json({ message: "Done", coupon});
 });
 
 export const createCoupon = asyncHandler(async (req, res, next) => {
@@ -76,6 +76,11 @@ export const updateCoupon = asyncHandler(async (req, res, next) => {
         }
         coupon.image = { secure_url, public_id };
     }
+
+    if(req.body.isDeleted){
+        coupon.isDeleted = (req.body.isDeleted=="true")? true : false;
+    }
+
     await coupon.save();
     return res.status(201).json({ message: "Done", coupon});
 });

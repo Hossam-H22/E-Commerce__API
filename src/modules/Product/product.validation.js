@@ -58,7 +58,7 @@ export const updateProduct = joi.object({
         mainImage: joi.array().items(generalFields.file.required()).max(1),
         subImages: joi.array().items(generalFields.file).min(1).max(5),
     }).required(),
-
+    isDeleted: joi.boolean(),
 }).required();
 
 

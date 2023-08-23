@@ -27,4 +27,5 @@ export const updateCoupon = joi.object({
     amount: joi.number().positive().min(0).max(100),
     expireDate: joi.date().greater(Date.now()),
     file: generalFields.file,
+    isDeleted: joi.boolean(),
 }).required();

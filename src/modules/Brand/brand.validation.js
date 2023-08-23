@@ -23,4 +23,5 @@ export const updateBrand = joi.object({
     brandId: generalFields.id,
     name: joi.string().min(2).max(50),
     file: generalFields.file,
+    isDeleted: joi.boolean(),
 }).required();

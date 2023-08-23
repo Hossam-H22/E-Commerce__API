@@ -5,6 +5,7 @@ class ApiFeatures {
     constructor(mongooseQuery, queryData){
         this.mongooseQuery = mongooseQuery;
         this.queryData = queryData;
+        this.metadata = {};
     }
     populate(){
         const availableDetails = ['categoryId', 'subcategoryId', 'brandId', 'reviews'];
@@ -23,6 +24,8 @@ class ApiFeatures {
         if(!size || size <=0) size = 20;
         if (size > 40) size = 40;
         const skip = (parseInt(page) - 1) * parseInt(size);
+        this.limit = parseInt(size);
+        this.page = parseInt(page);
         this.mongooseQuery.limit(parseInt(size)).skip(skip);
         return this;
     }

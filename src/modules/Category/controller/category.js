@@ -1,18 +1,28 @@
 
 import categoryModel from "./../../../../DB/Models/Category.model.js";
-import slugify from 'slugify'
+import productModel from './../../../../DB/Models/Product.model.js';
 import { asyncHandler } from "./../../../utils/errorHandling.js";
 import cloudinary from "./../../../utils/cloudinary.js";
+import ApiFeatures from "../../../utils/apiFeatures.js";
+import slugify from 'slugify'
 
 
 
 export const getCategories = asyncHandler(async (req, res, next) => {
-    const category = await categoryModel.find({ isDeleted: false }).populate([
-        {
-            path: 'subcategory',
-        }
-    ]);
-    return res.status(200).json({ message: "Done", category });
+    const totalNumberData = await categoryModel.countDocuments({ isDeleted: false });
+    req.query.details='subcategoryId';
+    const apiFeature = new ApiFeatures(categoryModel.find({ isDeleted: false }), req.query).populate().paginate();
+    const categoriesList = await apiFeature.mongooseQuery;
+    apiFeature.metadata = {
+        totalNumberData,
+        limit: apiFeature.limit,
+        numberOfPages: Math.floor(totalNumberData/apiFeature.limit) || 1,
+        currentPage: apiFeature.page,
+    }
+    const restPages = Math.floor(totalNumberData/apiFeature.limit) - apiFeature.page;
+    if(restPages>0) apiFeature.metadata.nextPage = restPages;
+
+    return res.status(200).json({ message: "Done", metadata: apiFeature.metadata, data: categoriesList });
 });
 
 export const getCategory = asyncHandler(async (req, res, next) => {
@@ -55,7 +65,8 @@ export const createCategory = asyncHandler(async (req, res, next) => {
 });
 
 export const updateCategory = asyncHandler(async (req, res, next) => {
-    const category = await categoryModel.findById(req.params.categoryId);
+    const categoryId = req.params.categoryId;
+    const category = await categoryModel.findById(categoryId);
     if (!category) {
         return next(new Error("In-valid category Id", { cause: 404 }));
     }
@@ -78,6 +89,15 @@ export const updateCategory = asyncHandler(async (req, res, next) => {
         const { secure_url, public_id } = await cloudinary.uploader.upload(req.file.path, { folder: `${process.env.APP_NAME}/Category` });
         await cloudinary.uploader.destroy(category.image.public_id);
         category.image = { secure_url, public_id };
+    }
+
+    if(req.body.isDeleted){
+        const products = await productModel.find({ isDeleted: false, categoryId });
+        const subcategories = await productModel.find({ isDeleted: false, categoryId });
+        if(req.body.isDeleted=="true" && (products?.length || subcategories?.length)){
+            return next(new Error("can not delete category because there is subcatrgories or products has this category id", { cause: 400 }));
+        }
+        category.isDeleted = (req.body.isDeleted=="true")? true : false;
     }
 
     category.updatedBy = req.user._id;

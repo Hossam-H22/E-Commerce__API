@@ -11,11 +11,20 @@ import slugify from 'slugify'
 
 
 
-
 export const getProductList = asyncHandler(async (req, res, next) => {
-    const apiFeature = new ApiFeatures(productModel.find(), req.query).populate().filter().sort().search().select().paginate();
-    const products = await apiFeature.mongooseQuery;
-    return res.status(200).json({ message: "Done", products });
+    const totalNumberData = await productModel.countDocuments({ isDeleted: false });
+    const apiFeature = new ApiFeatures(productModel.find({ isDeleted: false }), req.query).populate().filter().sort().search().select().paginate();
+    const productsList = await apiFeature.mongooseQuery;
+    apiFeature.metadata = {
+        totalNumberData,
+        limit: apiFeature.limit,
+        numberOfPages: Math.floor(totalNumberData/apiFeature.limit) || 1,
+        currentPage: apiFeature.page,
+    }
+    const restPages = Math.floor(totalNumberData/apiFeature.limit) - apiFeature.page;
+    if(restPages>0) apiFeature.metadata.nextPage = restPages;
+
+    return res.status(200).json({ message: "Done", metadata: apiFeature.metadata, data: productsList });
 });
 
 export const getProduct = asyncHandler(async (req, res, next) => {
@@ -156,7 +165,7 @@ export const updateProduct = asyncHandler(async (req, res, next) => {
 
     req.body.updatedBy = req.user._id;
     product = await productModel.findOneAndUpdate({ _id: product._id }, req.body, { new: true });
-    return res.status(200).json({ message: "Done", product });
+    return res.status(200).json(product.isDeleted ? { message: "Done" } : { message: "Done", product });
 });
 
 export const addToWishlist = asyncHandler(async (req, res, next) => {

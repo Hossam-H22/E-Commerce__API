@@ -1,14 +1,27 @@
 
-import brandModel from "./../../../../DB/Models/Brand.model.js";
-import slugify from 'slugify'
+import productModel from './../../../../DB/Models/Product.model.js';
 import { asyncHandler } from "./../../../utils/errorHandling.js";
+import brandModel from "./../../../../DB/Models/Brand.model.js";
+import ApiFeatures from './../../../utils/apiFeatures.js';
 import cloudinary from "./../../../utils/cloudinary.js";
+import slugify from 'slugify'
 
 
 
 export const getBrands = asyncHandler(async (req, res, next) => {
-    const brand = await brandModel.find({ isDeleted: false });
-    return res.status(200).json({ message: "Done", brand});
+    const totalNumberData = await brandModel.countDocuments({ isDeleted: false });
+    const apiFeature = new ApiFeatures(brandModel.find({ isDeleted: false }), req.query).paginate();
+    const brandList = await apiFeature.mongooseQuery;
+    apiFeature.metadata = {
+        totalNumberData,
+        limit: apiFeature.limit,
+        numberOfPages: Math.floor(totalNumberData/apiFeature.limit) || 1,
+        currentPage: apiFeature.page,
+    }
+    const restPages = Math.floor(totalNumberData/apiFeature.limit) - apiFeature.page;
+    if(restPages>0) apiFeature.metadata.nextPage = restPages;
+
+    return res.status(200).json({ message: "Done", metadata: apiFeature.metadata, data: brandList });
 });
 
 export const getBrand = asyncHandler(async (req, res, next) => {
@@ -45,7 +58,8 @@ export const createBrand = asyncHandler(async (req, res, next) => {
 });
 
 export const updateBrand = asyncHandler(async (req, res, next) => {
-    const brand = await brandModel.findById(req.params.brandId);
+    const brandId = req.params.brandId;
+    const brand = await brandModel.findById(brandId);
     if(!brand) {
         return next(new Error("In-valid brand Id", { cause: 404 }));
     }
@@ -69,6 +83,15 @@ export const updateBrand = asyncHandler(async (req, res, next) => {
         }
         brand.image = { secure_url, public_id };
     }
+
+    if(req.body.isDeleted){
+        const products = await productModel.find({ isDeleted: false, brandId });
+        if(req.body.isDeleted=="true" && products?.length){
+            return next(new Error("can not delete brand because some products has this brand id", { cause: 400 }));
+        }
+        brand.isDeleted = (req.body.isDeleted=="true")? true : false;
+    }
+
     brand.updatedBy = req.user._id;
     await brand.save();
     return res.status(201).json({ message: "Done", brand});

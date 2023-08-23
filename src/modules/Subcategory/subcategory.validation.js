@@ -24,4 +24,5 @@ export const updateSubcategory = joi.object({
     subcategoryId: generalFields.id,
     name: joi.string().min(2).max(50),
     file: generalFields.file,
+    isDeleted: joi.boolean(),
 }).required();
