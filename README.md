@@ -208,7 +208,7 @@ I'm excited to hear your <u><a href="https://forms.gle/o82Qt7jX1iJkqmRr5" target
 <a id="License"></a>
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the [MIT license](LICENSE).
 
 
 
