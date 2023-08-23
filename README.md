@@ -128,9 +128,6 @@ The project structure follows a modular pattern to enhance maintainability and r
 
 
 
-<!--  000000000000000000000000000000000000000000000000000000000000000000000000000000000000  -->
-<!--  000000000000000000000000000000000000000000000000000000000000000000000000000000000000  -->
-<!--  000000000000000000000000000000000000000000000000000000000000000000000000000000000000  -->
 <a id="API_Endpoints"></a>
 
 ## API Endpoints
@@ -232,7 +229,7 @@ Input validation and data sanitization are performed using Joi, ensuring that da
 <a id="Media_Upload"></a>
 
 ## Media Upload
-Cloudinary integration allows for easy and efficient management of media files associated with categories, products, ..etc. Images and other media can be uploaded and linked to their records.
+Cloudinary integration allows for easy and efficient management of media files associated with categories, brands, products, ..etc. Images and other media can be uploaded and linked to their records.
 
 
 
