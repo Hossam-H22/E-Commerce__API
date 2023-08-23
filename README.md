@@ -133,11 +133,56 @@ The project structure follows a modular pattern to enhance maintainability and r
 <a id="API_Endpoints"></a>
 
 ## API Endpoints
-* `GET /products`: Retrieve a list of products.
-* `GET /products/:id`: Retrieve details of a specific product.
-* `POST /products`: Create a new product (Seller only).
-* `PUT /products/:id`: Update product details (Seller only).
-* `DELETE /products/:id`: Delete a product (Seller only).
+* **Authentication**
+  * `POST /auth/login`: Login user.
+  * `POST /auth/signup`: Register new user.
+  * `POST /auth/loginWithGmail`: Login user with Google.
+  * `PATCH /auth/forgetPassword`: Send code to email to reset password.
+  * `PATCH /auth/resetPassword`: Reset forgetting password with new.
+* **User**
+  * `GET /user/all`: Retrieve a list of users.
+  * `GET /user`: Retrieve details of a specific user.
+  * `PATCH /user/updatePassword`: Update password of the user.
+* **Product**
+  * `GET /product`: Retrieve a list of products.
+  * `GET /product/:id`: Retrieve details of a specific product.
+  * `POST /product`: Create a new product (Seller only).
+  * `PUT /product/:id`: Update product details (Seller only).
+  * `PATCH /product/:id/wishlist`: Add product to wishlist (User only).
+  * `PATCH /product/:id/wishlist/remove`: Remove product from wishlist (User only).
+  * `POST /product/:id/review`: Add review for the product (User only).
+  * `PUT /product/:id/review`: Update review of the product (User only).
+* **Category**
+  * `GET /category`: Retrieve a list of categories.
+  * `GET /category/:id`: Retrieve details of a specific category.
+  * `POST /category`: Create a new category (Admin only).
+  * `PUT /category/:id`: Update category details (Admin only).
+* **Subcategory**
+  * `GET /subcategory`: Retrieve a list of subcategories.
+  * `GET /subcategory/:id`: Retrieve details of a specific subcategory.
+  * `POST /subcategory`: Create a new subcategory (Admin only).
+  * `PUT /subcategory/:id`: Update subcategory details (Admin only).
+* **Brand**
+  * `GET /brand`: Retrieve a list of brands.
+  * `GET /brand/:id`: Retrieve details of a specific brand.
+  * `POST /brand`: Create a new brand (Admin only).
+  * `PUT /brand/:id`: Update brand details (Admin only).
+* **Coupon**
+  * `GET /coupon`: Retrieve a list of coupons.
+  * `GET /coupon/:id`: Retrieve details of a specific coupon.
+  * `POST /coupon`: Create a new coupon (Admin only).
+  * `PUT /coupon/:id`: Update brand details (Admin only).
+* **Order**
+  * `GET /order`: Retrieve a list of orders (User only).
+  * `POST /order`: Create a new order (User only).
+  * `PATCH /order/:id`: Cancel order (User only).
+  * `PATCH /order/:id/update`: Update order details to change status (Admin only).
+* **Cart**
+  * `GET /cart`: Retrieve a list of products in the cart (User only).
+  * `POST /cart`: Add products to the cart (User only).
+  * `PATCH /cart/:id/clear`: Clear cart (User only).
+  * `PATCH /cart/:id/remove`: Remove some products from the cart(User only).
+
 Detailed API documentation can be found<a href="" target="_blank"> here</a>.
 
 
