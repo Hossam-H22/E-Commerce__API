@@ -16,7 +16,7 @@ Welcome to the E-Commerce API project! This project serves as the backend for an
 - [ Project Structure. ](#Project_Structure)
 - [ Getting Started. ](#Getting_Started)
 - [ API Endpoints. ](#API_Endpoints)
-- [ Available Base Links. ](#Available_Base_Links)
+- [ Available Base Url. ](#Available_Base_Url)
 - [ Authentication and Security. ](#Authentication)
 - [ Validation. ](#Validation)
 - [ Media Upload. ](#Media_Upload)
@@ -189,9 +189,9 @@ Detailed API documentation can be found<a href="" target="_blank"> here</a>.
 
 
 
-<a id="Available_Base_Links"></a>
+<a id="Available_Base_Url"></a>
 
-## Available Base Links
+## Available Base Url
 - https://e-commerce-api-dragon-h22.vercel.app/
 - https://e-commerce-api-git-master-dragon-h22.vercel.app/
 - https://e-commerce-api-tau.vercel.app/
