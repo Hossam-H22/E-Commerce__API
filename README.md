@@ -20,8 +20,7 @@ Welcome to the E-Commerce API project! This project serves as the backend for an
 - [ Authentication and Security. ](#Authentication)
 - [ Validation. ](#Validation)
 - [ Media Upload. ](#Media_Upload)
-- [ Contributing. ](#Contributing)
-- [ Feedback. ](#Feedback)
+- [ Feedback and Contributing. ](#Feedback_Contributing)
 - [ License. ](#License)
 
 
@@ -134,11 +133,11 @@ The project structure follows a modular pattern to enhance maintainability and r
 <a id="API_Endpoints"></a>
 
 ## API Endpoints
-`GET /products`: Retrieve a list of products.
-`GET /products/:id`: Retrieve details of a specific product.
-`POST /products`: Create a new product (Seller only).
-`PUT /products/:id`: Update product details (Seller only).
-`DELETE /products/:id`: Delete a product (Seller only).
+* `GET /products`: Retrieve a list of products.
+* `GET /products/:id`: Retrieve details of a specific product.
+* `POST /products`: Create a new product (Seller only).
+* `PUT /products/:id`: Update product details (Seller only).
+* `DELETE /products/:id`: Delete a product (Seller only).
 Detailed API documentation can be found<a href="" target="_blank"> here</a>.
 
 
@@ -154,7 +153,7 @@ Detailed API documentation can be found<a href="" target="_blank"> here</a>.
 - https://e-commerce-api-git-master-dragon-h22.vercel.app/
 - https://e-commerce-api-tau.vercel.app/
 
-> Note: BEARER_KEY = DragonH22__ 
+> Note:  Bearer key = DragonH22__ 
 
 
 
@@ -165,7 +164,7 @@ Detailed API documentation can be found<a href="" target="_blank"> here</a>.
 <a id="Authentication"></a>
 
 ## Authentication and Security
-User, seller, and admin authentication and authorization are implemented using JWT (JSON Web Tokens) and using Bcryptjs for password hashing. Users, sellers, and admins can register, log in, and receive tokens to access protected routes.
+User, seller, and admin authorization are implemented using JWT (JSON Web Tokens) and their authentication is implemented using Bcryptjs for password hashing. Users, sellers, and admins can register, log in, and receive tokens to access protected routes.
 
 
 
@@ -195,21 +194,10 @@ Cloudinary integration allows for easy and efficient management of media files a
 
 
 
-<a id="Contributing"></a>
+<a id="Feedback_Contributing"></a>
 
-## Contributing
-We welcome contributions from the community. If you'd like to contribute, please fork the repository, make your changes, and submit a pull request.
-
-
-
-<br>
-
-
-
-<a id="Feedback"></a>
-
-## Feedback
-I'm excited to hear your <u><a href="https://forms.gle/o82Qt7jX1iJkqmRr5" target="_blank">feedback</a></u> and discuss potential collaborations in this ever-evolving field.
+## Feedback and Contributing
+I'm excited to hear your <u><a href="https://forms.gle/o82Qt7jX1iJkqmRr5" target="_blank">feedback</a></u> and discuss potential collaborations and if you'd like to contribute, please fork the repository, make your changes, and submit a pull request.
 
 
 
