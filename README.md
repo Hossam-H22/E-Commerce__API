@@ -67,6 +67,7 @@ The E-Commerce API project aims to provide a robust backend for e-commerce appli
 - **Joi:** A validation library for JavaScript that helps ensure the integrity of data.
 - **Bcrypt.js:** A library for hashing and salting passwords to enhance security.
 - **Cloudinary:** A cloud-based media management platform for uploading, storing, and delivering images and other media.
+
 For a complete list of dependencies, please refer to the `package.json` file.
 
 
