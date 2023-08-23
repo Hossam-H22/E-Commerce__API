@@ -9,17 +9,17 @@ import slugify from 'slugify'
 
 
 export const getCategories = asyncHandler(async (req, res, next) => {
-    const totalNumberData = await categoryModel.countDocuments({ isDeleted: false });
+    const totalNumberOfData = await categoryModel.countDocuments({ isDeleted: false });
     req.query.details='subcategoryId';
-    const apiFeature = new ApiFeatures(categoryModel.find({ isDeleted: false }), req.query).populate().paginate();
+    const apiFeature = new ApiFeatures(categoryModel.find({ isDeleted: false }), req.query).populate().select().paginate();
     const categoriesList = await apiFeature.mongooseQuery;
     apiFeature.metadata = {
-        totalNumberData,
+        totalNumberOfData,
         limit: apiFeature.limit,
-        numberOfPages: Math.floor(totalNumberData/apiFeature.limit) || 1,
+        numberOfPages: Math.floor(totalNumberOfData/apiFeature.limit) || 1,
         currentPage: apiFeature.page,
     }
-    const restPages = Math.floor(totalNumberData/apiFeature.limit) - apiFeature.page;
+    const restPages = Math.floor(totalNumberOfData/apiFeature.limit) - apiFeature.page;
     if(restPages>0) apiFeature.metadata.nextPage = restPages;
 
     return res.status(200).json({ message: "Done", metadata: apiFeature.metadata, data: categoriesList });

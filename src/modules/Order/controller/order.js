@@ -1,10 +1,11 @@
 
-import { asyncHandler } from './../../../utils/errorHandling.js';
-import couponModel from './../../../../DB/Models/Coupon.model.js';
+import { deleteItemsFromCart, emptyCart } from '../../Cart/controller/cart.js';
 import productModel from './../../../../DB/Models/Product.model.js';
+import couponModel from './../../../../DB/Models/Coupon.model.js';
+import { asyncHandler } from './../../../utils/errorHandling.js';
 import orderModel from './../../../../DB/Models/Order.model.js';
 import cartModel from './../../../../DB/Models/Cart.model.js';
-import { deleteItemsFromCart, emptyCart } from '../../Cart/controller/cart.js';
+import ApiFeatures from '../../../utils/apiFeatures.js';
 import { createInvoice } from './../../../utils/pdf.js';
 import sendEmail from './../../../utils/sendEmail.js';
 import payment from './../../../utils/payment.js';
@@ -15,12 +16,22 @@ import Stripe from 'stripe';
 
 
 export const getOrders = asyncHandler(async (req, res, next) => {
-    const order = await orderModel.find({ userId: req.user._id });
-    if (!order) {
-        return next(new Error('Not found orders', { cause: 404 }))
+    const totalNumberOfData = await orderModel.countDocuments({ userId: req.user._id });
+    if(totalNumberOfData == 0){
+        return next(new Error('Not found orders', { cause: 404 }));
     }
+    const apiFeature = new ApiFeatures(orderModel.find({ userId: req.user._id }), req.query).select().paginate();
+    const ordersList = await apiFeature.mongooseQuery;
+    apiFeature.metadata = {
+        totalNumberOfData,
+        limit: apiFeature.limit,
+        numberOfPages: Math.floor(totalNumberOfData/apiFeature.limit) || 1,
+        currentPage: apiFeature.page,
+    }
+    const restPages = Math.floor(totalNumberOfData/apiFeature.limit) - apiFeature.page;
+    if(restPages>0) apiFeature.metadata.nextPage = restPages;
 
-    return res.status(200).json({ message: "Done", order });
+    return res.status(200).json({ message: "Done", metadata: apiFeature.metadata, data: ordersList });
 });
 
 

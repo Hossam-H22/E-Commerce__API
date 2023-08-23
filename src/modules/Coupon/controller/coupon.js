@@ -1,13 +1,25 @@
 
 import couponModel from "./../../../../DB/Models/Coupon.model.js";
 import { asyncHandler } from "./../../../utils/errorHandling.js";
+import ApiFeatures from './../../../utils/apiFeatures.js';
 import cloudinary from "./../../../utils/cloudinary.js";
 
 
 
 export const getCoupons = asyncHandler(async (req, res, next) => {
-    const coupon = await couponModel.find({ isDeleted: false });
-    return res.status(200).json({ message: "Done", coupon});
+    const totalNumberData = await couponModel.countDocuments({ isDeleted: false });
+    const apiFeature = new ApiFeatures(couponModel.find({ isDeleted: false }), req.query).select().paginate();
+    const couponList = await apiFeature.mongooseQuery;
+    apiFeature.metadata = {
+        totalNumberData,
+        limit: apiFeature.limit,
+        numberOfPages: Math.floor(totalNumberData/apiFeature.limit) || 1,
+        currentPage: apiFeature.page,
+    }
+    const restPages = Math.floor(totalNumberData/apiFeature.limit) - apiFeature.page;
+    if(restPages>0) apiFeature.metadata.nextPage = restPages;
+
+    return res.status(200).json({ message: "Done", metadata: apiFeature.metadata, data: couponList });
 });
 
 export const getCoupon = asyncHandler(async (req, res, next) => {

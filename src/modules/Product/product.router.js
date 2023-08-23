@@ -19,6 +19,7 @@ router.get(
 
 router.get(
     '/:productId',
+    validation(validators.getProduct),
     productController.getProduct,
 );
 

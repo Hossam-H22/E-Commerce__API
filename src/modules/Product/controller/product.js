@@ -12,16 +12,16 @@ import slugify from 'slugify'
 
 
 export const getProductList = asyncHandler(async (req, res, next) => {
-    const totalNumberData = await productModel.countDocuments({ isDeleted: false });
+    const totalNumberOfData = await productModel.countDocuments({ isDeleted: false });
     const apiFeature = new ApiFeatures(productModel.find({ isDeleted: false }), req.query).populate().filter().sort().search().select().paginate();
     const productsList = await apiFeature.mongooseQuery;
     apiFeature.metadata = {
-        totalNumberData,
+        totalNumberOfData,
         limit: apiFeature.limit,
-        numberOfPages: Math.floor(totalNumberData/apiFeature.limit) || 1,
+        numberOfPages: Math.floor(totalNumberOfData/apiFeature.limit) || 1,
         currentPage: apiFeature.page,
     }
-    const restPages = Math.floor(totalNumberData/apiFeature.limit) - apiFeature.page;
+    const restPages = Math.floor(totalNumberOfData/apiFeature.limit) - apiFeature.page;
     if(restPages>0) apiFeature.metadata.nextPage = restPages;
 
     return res.status(200).json({ message: "Done", metadata: apiFeature.metadata, data: productsList });

@@ -65,3 +65,7 @@ export const updateProduct = joi.object({
 export const wishlist = joi.object({
     productId: generalFields.id,
 }).required();
+
+export const getProduct = joi.object({
+    productId: generalFields.id,
+}).required();
