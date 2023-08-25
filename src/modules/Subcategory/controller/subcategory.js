@@ -12,7 +12,7 @@ import slugify from 'slugify'
 
 export const getSubcategories = asyncHandler(async (req, res, next) => {
     const totalNumberOfData = await subcategoryModel.countDocuments({ isDeleted: false });
-    req.query.details='categoryId';
+    // req.query.details='categoryId';
     const apiFeature = new ApiFeatures(subcategoryModel.find({ isDeleted: false }), req.query).populate().select().paginate();
     const subcategoryList = await apiFeature.mongooseQuery;
     apiFeature.metadata = {

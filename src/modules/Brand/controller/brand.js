@@ -10,7 +10,7 @@ import slugify from 'slugify'
 
 export const getBrands = asyncHandler(async (req, res, next) => {
     const totalNumberOfData = await brandModel.countDocuments({ isDeleted: false });
-    const apiFeature = new ApiFeatures(brandModel.find({ isDeleted: false }), req.query).paginate();
+    const apiFeature = new ApiFeatures(brandModel.find({ isDeleted: false }), req.query).select().paginate();
     const brandList = await apiFeature.mongooseQuery;
     apiFeature.metadata = {
         totalNumberOfData,

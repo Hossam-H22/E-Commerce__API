@@ -10,7 +10,7 @@ import slugify from 'slugify'
 
 export const getCategories = asyncHandler(async (req, res, next) => {
     const totalNumberOfData = await categoryModel.countDocuments({ isDeleted: false });
-    req.query.details='subcategoryId';
+    // req.query.details='subcategoryId';
     const apiFeature = new ApiFeatures(categoryModel.find({ isDeleted: false }), req.query).populate().select().paginate();
     const categoriesList = await apiFeature.mongooseQuery;
     apiFeature.metadata = {
@@ -29,7 +29,7 @@ export const getCategory = asyncHandler(async (req, res, next) => {
     const { categoryId } = req.params;
     const category = await categoryModel.findById(categoryId).populate([
         {
-            path: 'subcategory',
+            path: 'subcategoryId',
         }
     ]);
 

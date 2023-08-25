@@ -9,17 +9,20 @@ import { Router } from 'express'
 
 const router = Router();
 
-router.get(
-    "/",
-    auth(endPoint.all), 
-    userController.getUser,
-);
 
 router.get(
     "/all",
     auth(endPoint.admin), 
     userController.getUsers,
 );
+
+
+router.get(
+    "/",
+    auth(endPoint.all), 
+    userController.getUser,
+);
+
 
 router.patch(
     "/updatePassword", 
