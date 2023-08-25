@@ -181,7 +181,7 @@ The project structure follows a modular pattern to enhance maintainability and r
   * `PATCH /cart/:id/clear`: Clear cart (User only).
   * `PATCH /cart/:id/remove`: Remove some products from the cart(User only).
 
-Detailed Postman API documentation can be found <a href="https://documenter.getpostman.com/view/23533987/2s9Y5YQh8y" target="_blank">here</a>.
+> Detailed Postman API documentation can be found <a href="https://documenter.getpostman.com/view/23533987/2s9Y5YQh8y" target="_blank">here</a>.
 
 
 
@@ -196,7 +196,7 @@ Detailed Postman API documentation can be found <a href="https://documenter.getp
 - https://e-commerce-api-git-master-dragon-h22.vercel.app/
 - https://e-commerce-api-tau.vercel.app/
 
-> Note:  Bearer key = DragonH22__ 
+
 
 
 
