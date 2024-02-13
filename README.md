@@ -136,19 +136,19 @@ The project structure follows a modular pattern to enhance maintainability and r
   * `POST /auth/signup`: Register new user.
   * `POST /auth/loginWithGmail`: Login user with Google.
   * `PATCH /auth/forgetPassword`: Send code to email to reset password.
-  * `PATCH /auth/resetPassword`: Reset forgetting password with new.
+  * `PATCH /auth/resetPassword`: Reset the forgetting password with a new one.
 * **User**
   * `GET /user/all`: Retrieve a list of users.
   * `GET /user`: Retrieve details of a specific user.
-  * `PATCH /user/updatePassword`: Update password of the user.
+  * `PATCH /user/updatePassword`: Update the password of the user.
 * **Product**
   * `GET /product`: Retrieve a list of products.
   * `GET /product/:id`: Retrieve details of a specific product.
   * `POST /product`: Create a new product (Seller only).
   * `PUT /product/:id`: Update product details (Seller only).
   * `PATCH /product/:id/wishlist`: Add product to wishlist (User only).
-  * `PATCH /product/:id/wishlist/remove`: Remove product from wishlist (User only).
-  * `POST /product/:id/review`: Add review for the product (User only).
+  * `PATCH /product/:id/wishlist/remove`: Remove the product from wishlist (User only).
+  * `POST /product/:id/review`: Add a review for the product (User only).
   * `PUT /product/:id/review`: Update review of the product (User only).
 * **Category**
   * `GET /category`: Retrieve a list of categories.
@@ -252,6 +252,12 @@ I'm excited to hear your <u><a href="https://forms.gle/o82Qt7jX1iJkqmRr5" target
 
 ## License
 This project is licensed under the [MIT license](LICENSE).
+
+
+<br>
+
+
+
 
 
 <br>
