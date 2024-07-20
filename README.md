@@ -80,7 +80,7 @@ For a complete list of dependencies, please refer to the `package.json` file.
 
 ## Getting Started
 
-To get started with the Fresh Cart frontend project, follow these steps:
+To get started with the E-Commerce frontend project, follow these steps:
 
 1. <strong>Clone the Repository:</strong> Clone this repository to your local machine using the following command:
 ```bash
