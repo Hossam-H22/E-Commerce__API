@@ -2,10 +2,10 @@
 import { Router } from "express";
 import { fileUpload, fileValidation } from "./../../utils/cloudMulter.js";
 import * as couponController from './controller/coupon.js'
-import validation from "./../../middleware/validation.middleware.js";
+import {validation} from "./../../middleware/validation.middleware.js";
 import * as validators from "./coupon.validation.js"
 import { endPoint } from "./coupon.endPoint.js";
-import auth from "./../../middleware/auth.middleware.js";
+import {auth} from "./../../middleware/auth.middleware.js";
 
 const router = Router()
 

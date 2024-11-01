@@ -34,7 +34,7 @@ export const generalFields = {
     }),
 }
 
-const validation = (schema, considerHeaders = false) => {
+export const validation = (schema, considerHeaders = false) => {
     return (req, res, next) => {
         let inputs = { ...req.body, ...req.query, ...req.params }
         
@@ -54,5 +54,3 @@ const validation = (schema, considerHeaders = false) => {
         return next();
     }
 }
-
-export default validation;
