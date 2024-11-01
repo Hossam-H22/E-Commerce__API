@@ -1,8 +1,9 @@
-import { GraphQLID, GraphQLInt, GraphQLList, GraphQLString } from "graphql";
+import { GraphQLID, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLString } from "graphql";
 import productModel from "../../../../DB/Models/Product.model.js";
 import { productType } from "./product.types.js";
 import { graphValidation } from "../../../middleware/validation.middleware.js";
 import * as validators from "./../product.validation.js";
+import { graphAuth, roles } from "../../../middleware/auth.middleware.js";
 
 
 export const products = {
@@ -30,11 +31,16 @@ export const getProductById = {
 export const updateStock = {
     type: productType,
     args: {
-        _id: { type: GraphQLID },
-        stock: { type: GraphQLInt },
+        _id: { type: new GraphQLNonNull(GraphQLID) },
+        stock: { type: new GraphQLNonNull(GraphQLInt) },
+        authorization: { type: new GraphQLNonNull(GraphQLString) },
     },
     resolve: async (parent, args) => {
-        const {_id, stock} = args;
+        const {_id, stock, authorization} = args;
+
+        // Authorization
+        await graphAuth(authorization, [roles.Admin])
+
         const product = await productModel.findOneAndUpdate({ _id }, { stock }, { new: true });
         return product;
     }

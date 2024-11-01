@@ -48,38 +48,35 @@ export const auth = (accessRoles = []) => {
 }
 
 
-export const graphAuth = (accessRoles = []) => {
-    return asyncHandler( async (req, res, next) => {
-        const { authorization } = req.headers;
-        if (!authorization?.startsWith(process.env.BEARER_KEY)) {
-            return next(new Error("In-valid Bearer key", { cause: 400 }));
-        }
-    
-        const token = authorization.split(process.env.BEARER_KEY)[1]
-        if (!token) {
-            return next(new Error("Token is required", { cause: 400 }));
-        }
-    
-        // Decode Token
-        const decodedToken = verifyToken({ token });
-        if (!decodedToken?.id || !decodedToken?.isLoggedIn) {
-            return next(new Error("In-valid token", { cause: 400 }));
-        }
-    
-        const authUser = await userModel.findById(decodedToken.id).select("userName email status role changePasswordTime");
-        if (!authUser) {
-            return next(new Error("Not register account", { cause: 401 }));
-        }
+export const graphAuth = async (authorization, accessRoles = []) => {
 
-        if(authUser.changePasswordTime && parseInt(authUser.changePasswordTime.getTime()/1000) > decodedToken.iat){
-            return next(new Error("Expired token", { cause: 400 }));
-        }
-        
-        if(!accessRoles.includes(authUser.role)) {
-            return next(new Error("Not authorized account", { cause: 403 }));
-        }
+    if (!authorization?.startsWith(process.env.BEARER_KEY)) {
+        throw new Error("In-valid Bearer key");
+    }
 
-        req.user = authUser;
-        return next();
-    })
+    const token = authorization.split(process.env.BEARER_KEY)[1]
+    if (!token) {
+        throw new Error("Token is required");
+    }
+
+    // Decode Token
+    const decodedToken = verifyToken({ token });
+    if (!decodedToken?.id || !decodedToken?.isLoggedIn) {
+        throw new Error("In-valid token");
+    }
+
+    const authUser = await userModel.findById(decodedToken.id).select("userName email status role changePasswordTime");
+    if (!authUser) {
+        throw new Error("Not register account");
+    }
+
+    if(authUser.changePasswordTime && parseInt(authUser.changePasswordTime.getTime()/1000) > decodedToken.iat){
+        throw new Error("Expired token");
+    }
+    
+    if(!accessRoles.includes(authUser.role)) {
+        throw new Error("Not authorized account");
+    }
+
+    return authUser;
 }
