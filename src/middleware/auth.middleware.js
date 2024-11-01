@@ -11,7 +11,7 @@ export const roles = {
     Seller: 'Seller',
 }
 
-const auth = (accessRoles = []) => {
+export const auth = (accessRoles = []) => {
     return asyncHandler( async (req, res, next) => {
         const { authorization } = req.headers;
         if (!authorization?.startsWith(process.env.BEARER_KEY)) {
@@ -47,5 +47,3 @@ const auth = (accessRoles = []) => {
     })
 }
 
-
-export default auth;

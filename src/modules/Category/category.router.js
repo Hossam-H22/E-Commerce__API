@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { fileUpload, fileValidation } from "./../../utils/cloudMulter.js";
 import * as categoryController from './controller/category.js'
-import validation from "./../../middleware/validation.middleware.js";
+import {validation} from "./../../middleware/validation.middleware.js";
 import * as validators from "./category.validation.js"
 import subcategoryRouter from "./../Subcategory/subcategory.router.js"
-import auth from "./../../middleware/auth.middleware.js";
+import {auth} from "./../../middleware/auth.middleware.js";
 import { endPoint } from "./category.endPoint.js";
 
 const router = Router()

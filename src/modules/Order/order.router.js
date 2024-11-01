@@ -1,5 +1,5 @@
-import validation from './../../middleware/validation.middleware.js';
-import auth from './../../middleware/auth.middleware.js';
+import {validation} from './../../middleware/validation.middleware.js';
+import {auth} from './../../middleware/auth.middleware.js';
 import * as orderController from './controller/order.js'
 import * as validators from './order.validation.js'
 import { endPoint } from './order.endPoint.js';

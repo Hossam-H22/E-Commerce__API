@@ -1,9 +1,9 @@
 
-import auth from './../../middleware/auth.middleware.js';
+import {auth} from './../../middleware/auth.middleware.js';
 import * as productController from './controller/product.js'
 import { endPoint } from './product.endPoint.js';
 import { fileUpload, fileValidation } from './../../utils/cloudMulter.js';
-import validation from './../../middleware/validation.middleware.js';
+import {validation} from './../../middleware/validation.middleware.js';
 import * as validators from './product.validation.js'
 import reviewRouter from './../Reviews/reviews.router.js'
 import { Router } from "express";

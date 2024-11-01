@@ -1,8 +1,8 @@
 
-import auth from './../../middleware/auth.middleware.js';
+import {auth} from './../../middleware/auth.middleware.js';
 import * as reviewController from './controller/reviews.js'
 import { endPoint } from './reviews.endPoint.js';
-import validation from './../../middleware/validation.middleware.js';
+import {validation} from './../../middleware/validation.middleware.js';
 import * as validators from './reviews.validation.js'
 import { Router } from "express";
 const router = Router({ mergeParams: true });
