@@ -14,8 +14,6 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import morgan from "morgan"
 import cors from 'cors'
-import { graphqlHTTP } from "express-graphql"
-import rootSchema from "./rootGraphQL.js"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -41,6 +39,7 @@ const initApp = (app, express) => {
         app.use(morgan("common"));
     }
 
+
     // convert Buffer Data
     app.use((req, res, next) => {
         if(req.originalUrl == '/order/webhook') next();
@@ -50,14 +49,6 @@ const initApp = (app, express) => {
     // Media Routing
     const fullPath = path.join(__dirname, './uploads')
     app.use("/uploads", express.static(fullPath));
-
-    
-    // GraphQL Routing
-    app.use('/graphQl', graphqlHTTP({
-        schema: rootSchema, 
-        graphiql: true,
-    }));
-
 
     // App Routing
     app.get('/', (req, res) => res.status(200).json({ message: 'Welcomme to E-commerce App' }));
