@@ -69,3 +69,4 @@ export const wishlist = joi.object({
 export const getProduct = joi.object({
     productId: generalFields.id,
 }).required();
+
