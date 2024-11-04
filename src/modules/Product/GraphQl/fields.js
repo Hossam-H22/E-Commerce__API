@@ -9,7 +9,14 @@ import { graphAuth, roles } from "../../../middleware/auth.middleware.js";
 export const products = {
     type: new GraphQLList(productType),
     resolve: async (parent, args)=>{
-        const products = await productModel.find();
+        const products = await productModel.find({
+            isDeleted: false
+        }).populate([
+            { path: 'categoryId' },
+            { path: 'subcategoryId' },
+            { path: 'brandId' },
+            { path: 'reviews' },
+        ]);
         return products;
     }
 }
@@ -23,7 +30,16 @@ export const getProductById = {
         // validation
         await graphValidation(validators.getProduct, args);
 
-        const product = await productModel.findById(args.productId);
+        const product = await productModel.findOne({
+            _id: args.productId, 
+            isDeleted: false
+        }).populate([
+            { path: 'categoryId' },
+            { path: 'subcategoryId' },
+            { path: 'brandId' },
+            { path: 'reviews' },
+        ]);
+        
         return product;
     }
 }
