@@ -8,7 +8,7 @@ import {
     GraphQLBoolean,
 } from "graphql";
 import { imageType } from "./../../Product/GraphQl/product.types.js";
-import { userType } from "./../../User/GraphQl/user.type.js";
+import { userTypeGeneral } from "./../../User/GraphQl/user.type.js";
 
 
 export const brandType = new GraphQLObjectType({
@@ -19,8 +19,8 @@ export const brandType = new GraphQLObjectType({
         name: { type: GraphQLString },
         slug: { type: GraphQLString },
         image: { type: imageType('brandImage') },
-        createdBy: { type: userType },
-        updatedBy: { type: userType },
+        createdBy: { type: userTypeGeneral },
+        updatedBy: { type: userTypeGeneral },
         isDeleted: { type: GraphQLBoolean },
     }
 })

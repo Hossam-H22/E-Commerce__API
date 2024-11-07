@@ -7,7 +7,7 @@ import {
     GraphQLList,
     GraphQLBoolean,
 } from "graphql";
-import { userType } from "./../../User/GraphQl/user.type.js";
+import { userTypeGeneral } from "./../../User/GraphQl/user.type.js";
 
 
 export const reviewType = new GraphQLObjectType({
@@ -17,6 +17,6 @@ export const reviewType = new GraphQLObjectType({
         _id: { type: GraphQLID },
         comment: { type: GraphQLString },
         rating: { type: GraphQLFloat },
-        createdBy: { type: userType },
+        createdBy: { type: userTypeGeneral },
     }
 })

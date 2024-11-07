@@ -9,7 +9,7 @@ import {
 } from "graphql";
 import { productType } from "./../../Product/GraphQl/product.types.js";
 import { couponType } from './../../Coupon/GraphQl/coupon.type.js';
-import { userType } from "./../../User/GraphQl/user.type.js";
+import { userTypeGeneral } from "./../../User/GraphQl/user.type.js";
 
 
 const productOrderItem = new GraphQLObjectType({
@@ -29,8 +29,8 @@ export const orderType = new GraphQLObjectType({
     description: '',
     fields: {
         _id: { type: GraphQLID },
-        userId: { type: userType },
-        updatedBy: { type: userType },
+        userId: { type: userTypeGeneral },
+        updatedBy: { type: userTypeGeneral },
         address: { type: GraphQLString },
         phone: { type: GraphQLString },
         note: { type: GraphQLString },

@@ -7,7 +7,7 @@ import {
 } from 'graphql';
 import { categoryType } from '../../Category/GraphQl/category.type.js';
 import { imageType } from './../../Product/GraphQl/product.types.js';
-import { userType } from './../../User/GraphQl/user.type.js';
+import { userTypeGeneral } from './../../User/GraphQl/user.type.js';
 
 
 export const subcategoryType = new GraphQLObjectType({
@@ -20,8 +20,8 @@ export const subcategoryType = new GraphQLObjectType({
         customId: { type: GraphQLString },
         image: { type: imageType('subcategoryImage') },
         categoryId: { type: categoryType },
-        createdBy: { type: userType },
-        updatedBy: { type: userType },
+        createdBy: { type: userTypeGeneral },
+        updatedBy: { type: userTypeGeneral },
         isDeleted: { type: GraphQLBoolean },
     }
 })

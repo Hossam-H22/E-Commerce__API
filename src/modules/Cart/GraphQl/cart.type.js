@@ -13,7 +13,7 @@ import { categoryType } from './../../Category/GraphQl/category.type.js';
 import { subcategoryType } from './../../Subcategory/GraphQl/subcategory.type.js';
 import { reviewType } from "./../../Reviews/GraphQl/review.type.js";
 import { productType } from "./../../Product/GraphQl/product.types.js";
-import { userType } from "./../../User/GraphQl/user.type.js";
+import { userTypeGeneral } from "./../../User/GraphQl/user.type.js";
 
 
 const productCartItem = new GraphQLObjectType({
@@ -30,7 +30,7 @@ export const cartType = new GraphQLObjectType({
     description: '',
     fields: {
         _id: { type: GraphQLID },
-        userId: { type: userType },
+        userId: { type: userTypeGeneral },
         products: { 
             type: new GraphQLList(productCartItem)
         },

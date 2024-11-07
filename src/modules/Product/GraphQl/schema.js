@@ -7,7 +7,9 @@ const productSchema = {
         getProductById: productController.getProductById,
     },
     mutation: {
-        updateStock: productController.updateStock,
+        updateProduct: productController.updateProduct,
+        addToWishlist: productController.addToWishlist,
+        removeFromWishlist: productController.removeFromWishlist,
     }
 };
 

@@ -7,7 +7,7 @@ import {
     GraphQLBoolean,
 } from "graphql";
 import { imageType } from "./../../Product/GraphQl/product.types.js";
-import { userType } from "./../../User/GraphQl/user.type.js";
+import { userTypeGeneral } from "./../../User/GraphQl/user.type.js";
 
 
 
@@ -21,8 +21,8 @@ export const couponType = new GraphQLObjectType({
         amount: { type: GraphQLFloat },
         expireDate: { type: GraphQLString },
         image: { type: imageType('couponImage') },
-        createdBy: { type: userType },
-        usedBy: { type: new GraphQLList(userType) },
+        createdBy: { type: userTypeGeneral },
+        usedBy: { type: new GraphQLList(userTypeGeneral) },
         isDeleted: { type: GraphQLBoolean },
     }
 })
