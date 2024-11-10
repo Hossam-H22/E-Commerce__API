@@ -15,6 +15,9 @@ import { graphAuth } from "./../../../middleware/auth.middleware.js";
 import { endPoint } from "./../product.endPoint.js";
 import { userTypeGeneral } from "./../../User/GraphQl/user.type.js";
 import userModel from "../../../../DB/Models/User.model.js";
+import subcategoryModel from "../../../../DB/Models/Subcategory.model.js";
+import brandModel from "../../../../DB/Models/Brand.model.js";
+import slugify from "slugify";
 
 
 export const products = {
@@ -83,7 +86,51 @@ export const updateProduct = {
         // Authorization
         const user = await graphAuth(authorization, endPoint.update);
 
-        const product = await productModel.findOneAndUpdate({ _id: productId }, args, { new: true });
+        // check product exist
+        let product = await productModel.findById(productId);
+        if (!product) {
+            throw Error("In-valid product id");
+        }
+
+        // check user authorization
+        if (user.role == "Seller" && user._id != product.createdBy) {
+            throw new Error("You are not authorized to update this product");
+        }
+
+        // destruct main fields
+        const { name, categoryId, subcategoryId, brandId, price, discount } = args;
+
+        // check category and brand
+        if (categoryId && subcategoryId) {
+            if (! await subcategoryModel.findOne({ _id: subcategoryId, categoryId })) {
+                throw new Error("In-valid category or subcategory id");
+            }
+        }
+        if (brandId) {
+            if (! await brandModel.findOne({ _id: brandId })) {
+                throw new Error("In-valid brand id");
+            }
+        }
+
+        // update slug
+        if (name) {
+            args.name.toLowerCase();
+            args.slug = slugify(args.name, {
+                replacement: '-',
+                trim: true,
+                lower: true,
+            });
+        }
+
+        // update price
+        if (price || discount) {
+            args.price = price || product.price;
+            args.discount = discount || product.discount;
+            args.finalPrice = Number.parseFloat(((100 - (discount || product.discount)) / 100) * (price || product.price)).toFixed(2);
+        }
+
+        args.updatedBy = user._id;
+        product = await productModel.findOneAndUpdate({ _id: product._id }, args, { new: true });
         return product;
     }
 }
