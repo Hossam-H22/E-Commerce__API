@@ -33,7 +33,7 @@ export const getBrandById = {
         await graphValidation(validators.getBrand, args);
 
         const brand = await brandModel.findOne({
-            _id: args.productId,
+            _id: args.brandId,
             isDeleted: false
         })
 
