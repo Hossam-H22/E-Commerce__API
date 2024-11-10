@@ -34,3 +34,7 @@ export const updateOrderStatusByAdmin = joi.object({
     orderId: generalFields.id,
     status: joi.string().valid('rejected', 'placed', 'onWay', 'delivered').required(),
 }).required();
+
+export const getOrderGraph = joi.object({
+    authorization: joi.string().required(),
+}).required();

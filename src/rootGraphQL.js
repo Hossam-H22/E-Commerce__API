@@ -5,6 +5,7 @@ import categorySchema from "./modules/Category/GraphQl/schema.js";
 import subcategorySchema from "./modules/Subcategory/GraphQl/schema.js";
 import couponController from "./modules/Coupon/GraphQl/shema.js";
 import userSchema from "./modules/User/GraphQl/shema.js";
+import orderSchema from './modules/Order/GraphQl/shema.js';
 
 const RootGraphQL = new GraphQLSchema({
     query: new GraphQLObjectType({
@@ -17,6 +18,7 @@ const RootGraphQL = new GraphQLSchema({
             ...subcategorySchema.query,
             ...couponController.query,
             ...userSchema.query,
+            ...orderSchema.query,
         },
     }),
     mutation: new GraphQLObjectType({
