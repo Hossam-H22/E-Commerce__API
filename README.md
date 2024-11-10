@@ -1,6 +1,6 @@
 # E-Commerce__API
 
-Welcome to the E-Commerce API project! This project serves as the backend for an e-commerce platform that caters to both users and sellers. Built using Node.js, Express, MongoDB, Joi, Bcrypt.js, and Cloudinary, this API provides a secure and efficient way to manage e-commerce operations such as product listing, shopping cart management, order processing, user authentication, and media uploading.
+Welcome to the E-Commerce API project! This project serves as the backend for an e-commerce platform that caters to both users and sellers. Built using Node.js, Express, MongoDB, Joi, Bcrypt.js, Cloudinary, and GraphQL, this API provides a secure and efficient way to manage e-commerce operations such as product listing, shopping cart management, order processing, user authentication, and media uploading.
 
 
 
@@ -16,6 +16,7 @@ Welcome to the E-Commerce API project! This project serves as the backend for an
 - [ Project Structure. ](#Project_Structure)
 - [ Getting Started. ](#Getting_Started)
 - [ API Endpoints. ](#API_Endpoints)
+- [ GraphQL Queries and Mutations. ](#GraphQL_Queries_Mutations)
 - [ Available Base Url. ](#Available_Base_Url)
 - [ Authentication and Security. ](#Authentication)
 - [ Validation. ](#Validation)
@@ -49,6 +50,7 @@ The E-Commerce API project aims to provide a robust backend for e-commerce appli
 - **Shopping Cart:** Enable users to add and manage items in their shopping carts before checkout.
 - **Order Processing:** Handle the process of placing orders, tracking order history, and managing order status.
 - **Media Upload:** Utilize Cloudinary to securely upload and manage product images and other media.
+- **GraphQL Support:** A powerful query language for flexible data retrieval and manipulation.
 - **Validation:** Input validation and data sanitization using Joi to ensure data integrity.
 - **Security:** Password hashing using Bcrypt.js to safeguard user and seller credentials.
 
@@ -67,6 +69,7 @@ The E-Commerce API project aims to provide a robust backend for e-commerce appli
 - **Joi:** A validation library for JavaScript that helps ensure the integrity of data.
 - **Bcrypt.js:** A library for hashing and salting passwords to enhance security.
 - **Cloudinary:** A cloud-based media management platform for uploading, storing, and delivering images and other media.
+- **GraphQL:** A query language for APIs that allows clients to request only the needed data.
 
 For a complete list of dependencies, please refer to the `package.json` file.
 
@@ -120,6 +123,7 @@ The project structure follows a modular pattern to enhance maintainability and r
     * `middleware/`: Middleware functions for authentication, error handling, etc.
     * `modules/`: Defines API routes and connects them to controllers to perform their business logic.
     * `utils/`: Utility functions for various tasks.
+    * `rootGraphQL.js`: Main GraphQl schema setup.
     * `app.js`: Main Express application setup.
 
 
@@ -182,6 +186,46 @@ The project structure follows a modular pattern to enhance maintainability and r
   * `PATCH /cart/:id/remove`: Remove some products from the cart(User only).
 
 > Detailed Postman API documentation can be found <a href="https://documenter.getpostman.com/view/23533987/2s9Y5YQh8y" target="_blank">here</a>.
+
+
+
+
+<br>
+
+
+
+<a id="GraphQL_Queries_Mutations"></a>
+
+## GraphQL Queries and Mutations
+
+GraphQL allows for flexible and efficient data retrieval and manipulation.
+
+* **Queries:**
+  *  `products: [productTypeName]`: Retrieve a list of products.
+  *  `getProductById: productTypeName`: Retrieve details of a specific product.
+  *  `brands: [brandTypeName]`: Retrieve a list of brands.
+  *  `getBrandById: brandTypeName`: Retrieve details of a specific brand.
+  *  `categories: [categoryTypeName]`: Retrieve a list of categories.
+  *  `getCategoryById: categoryTypeName`: Retrieve details of a specific category.
+  *  `subcategories: [subcategoryTypeName]`: Retrieve a list of subcategories.
+  *  `getSubcategoriesById: subcategoryTypeName`: Retrieve details of a specific subcategory.
+  *  `coupons: [couponTypeName]`: Retrieve a list of coupons.
+  *  `getCouponById: couponTypeName`: Retrieve details of a specific coupon.
+  *  `users: [userTypeName]`: Retrieve a list of users.
+  *  `getUserInformation: [userTypeName]`: Retrieve details of a specific user.
+  *  `orders: [orderTypeName]`: Retrieve a list of orders (User only).
+  *  `cart: [cartTypeName]`: Retrieve a list of products in the cart (User only).
+* **Mutations**
+  * `updateProduct: productTypeName`: Update product details (Seller only).
+  * `addToWishlist: userTypeNameGeneral`: Add product to wishlist (User only).
+  * `removeFromWishlist: userTypeNameGeneral`: Remove product from wishlist (User only).
+  * `updateBrand: brandTypeName`: Update brand details (Admin only).
+  * `updateCategory: categoryTypeName`: Update category details (Admin only).
+  * `updateSubcategory: subcategoryTypeName`: Update subcategory details (Admin only).
+  * `updateCoupon: couponTypeName`: Update brand details (Admin only).
+
+
+
 
 
 

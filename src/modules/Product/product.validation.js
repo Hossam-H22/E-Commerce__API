@@ -62,10 +62,33 @@ export const updateProduct = joi.object({
 }).required();
 
 
+export const updateProductGraph = joi.object({
+    name: joi.string().min(2).max(150),
+    description: joi.string().min(2).max(150000),
+    sizes: joi.array().items(joi.string()),
+    colors: joi.array().items(joi.string()),
+    stock: joi.number().integer().positive().min(1),
+    price: joi.number().positive().min(1),
+    discount: joi.number().positive().min(1).max(100),
+    productId: generalFields.id,
+    categoryId: generalFields.optionalId,
+    subcategoryId: generalFields.optionalId,
+    brandId: generalFields.optionalId,
+    isDeleted: joi.boolean(),
+    authorization: joi.string().required(),
+}).required();
+
+
 export const wishlist = joi.object({
     productId: generalFields.id,
+}).required();
+
+export const wishlistGraph = joi.object({
+    productId: generalFields.id,
+    authorization: joi.string().required(),
 }).required();
 
 export const getProduct = joi.object({
     productId: generalFields.id,
 }).required();
+

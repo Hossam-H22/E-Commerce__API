@@ -25,3 +25,10 @@ export const updateBrand = joi.object({
     file: generalFields.file,
     isDeleted: joi.boolean(),
 }).required();
+
+export const updateBrandGraph = joi.object({
+    authorization: joi.string().required(),
+    brandId: generalFields.id,
+    name: joi.string().min(2).max(50),
+    isDeleted: joi.boolean(),
+}).required();

@@ -47,3 +47,36 @@ export const auth = (accessRoles = []) => {
     })
 }
 
+
+export const graphAuth = async (authorization, accessRoles = []) => {
+
+    if (!authorization?.startsWith(process.env.BEARER_KEY)) {
+        throw new Error("In-valid Bearer key");
+    }
+
+    const token = authorization.split(process.env.BEARER_KEY)[1]
+    if (!token) {
+        throw new Error("Token is required");
+    }
+
+    // Decode Token
+    const decodedToken = verifyToken({ token });
+    if (!decodedToken?.id || !decodedToken?.isLoggedIn) {
+        throw new Error("In-valid token");
+    }
+
+    const authUser = await userModel.findById(decodedToken.id).select("userName email status role changePasswordTime");
+    if (!authUser) {
+        throw new Error("Not register account");
+    }
+
+    if(authUser.changePasswordTime && parseInt(authUser.changePasswordTime.getTime()/1000) > decodedToken.iat){
+        throw new Error("Expired token");
+    }
+    
+    if(!accessRoles.includes(authUser.role)) {
+        throw new Error("Not authorized account");
+    }
+
+    return authUser;
+}

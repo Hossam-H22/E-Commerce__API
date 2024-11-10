@@ -29,3 +29,12 @@ export const updateCoupon = joi.object({
     file: generalFields.file,
     isDeleted: joi.boolean(),
 }).required();
+
+
+export const updateCouponGraph = joi.object({
+    couponId: generalFields.id,
+    name: joi.string().min(2).max(50),
+    amount: joi.number().positive().min(0).max(100),
+    expireDate: joi.date().greater(Date.now()),
+    isDeleted: joi.boolean(),
+}).required();
