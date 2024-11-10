@@ -5,6 +5,7 @@ import { asyncHandler } from "./../../../utils/errorHandling.js";
 import cloudinary from "./../../../utils/cloudinary.js";
 import ApiFeatures from "../../../utils/apiFeatures.js";
 import slugify from 'slugify'
+import subcategoryModel from "../../../../DB/Models/Subcategory.model.js";
 
 
 
@@ -93,7 +94,7 @@ export const updateCategory = asyncHandler(async (req, res, next) => {
 
     if(req.body.isDeleted){
         const products = await productModel.find({ isDeleted: false, categoryId });
-        const subcategories = await productModel.find({ isDeleted: false, categoryId });
+        const subcategories = await subcategoryModel.find({ isDeleted: false, categoryId });
         if(req.body.isDeleted=="true" && (products?.length || subcategories?.length)){
             return next(new Error("can not delete category because there is subcatrgories or products has this category id", { cause: 400 }));
         }

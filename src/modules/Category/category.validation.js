@@ -26,3 +26,10 @@ export const updateCategory = joi.object({
     isDeleted: joi.boolean(),
 }).required();
 
+export const updateCategoryGraph = joi.object({
+    categoryId: generalFields.id,
+    authorization: joi.string().required(),
+    name: joi.string().min(2).max(50),
+    isDeleted: joi.boolean(),
+}).required();
+
