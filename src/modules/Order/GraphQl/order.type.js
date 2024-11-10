@@ -16,7 +16,7 @@ const productOrderItem = new GraphQLObjectType({
     name: 'productOrderItem',
     fields: {
         name: { type: GraphQLString },
-        productId: { type: GraphQLID },
+        productId: { type: productType },
         quantity: { type: GraphQLInt },
         unitPrice: { type: GraphQLFloat },
         finalPrice: { type: GraphQLFloat },

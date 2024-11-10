@@ -32,7 +32,7 @@ export const orders = {
             { path: 'userId' },
             { path: 'updatedBy' },
             { path: 'couponId' },
-            // { path: 'productId' },
+            { path: 'products.productId' },
         ]);
         return orders;
     }
