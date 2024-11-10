@@ -11,8 +11,8 @@ import * as validators from './../coupon.validation.js'
 import { graphAuth } from './../../../middleware/auth.middleware.js';
 import { graphValidation } from '../../../middleware/validation.middleware.js';
 import { endPoint } from './../coupon.endPoint.js';
-import { couponType } from './coupon.type';
-import couponModel from './../../../../DB/Models/Coupon.model';
+import { couponType } from './coupon.type.js';
+import couponModel from './../../../../DB/Models/Coupon.model.js';
 
 
 export const coupons = {

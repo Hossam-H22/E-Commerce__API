@@ -8,6 +8,10 @@ export const updatePassword = joi.object({
     cPassword: generalFields.cPassword.valid(joi.ref("newPassword")),
 }).required();
 
+export const getUser = joi.object({
+    authorization: joi.string().required(),
+}).required();
+
 
 // export const shareProfile = joi.object({
 //     id: generalFields.id,
