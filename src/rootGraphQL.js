@@ -2,6 +2,7 @@ import { GraphQLObjectType, GraphQLSchema } from "graphql"
 import productSchema from './modules/Product/GraphQl/schema.js';
 import brandSchema from "./modules/Brand/GraphQl/shema.js";
 import categorySchema from "./modules/Category/GraphQl/schema.js";
+import subcategorySchema from "./modules/Subcategory/GraphQl/schema.js";
 
 const RootGraphQL = new GraphQLSchema({
     query: new GraphQLObjectType({
@@ -11,6 +12,7 @@ const RootGraphQL = new GraphQLSchema({
             ...productSchema.query,
             ...brandSchema.query,
             ...categorySchema.query,
+            ...subcategorySchema.query,
         },
     }),
     mutation: new GraphQLObjectType({
@@ -20,6 +22,7 @@ const RootGraphQL = new GraphQLSchema({
             ...productSchema.mutation,
             ...brandSchema.mutation,
             ...categorySchema.mutation,
+            ...subcategorySchema.mutation,
         },
     }),
 });

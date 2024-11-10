@@ -7,7 +7,7 @@ import slugify from "slugify";
 import productModel from "./../../../../DB/Models/Product.model.js";
 import subcategoryModel from "../../../../DB/Models/Subcategory.model.js";
 import { graphAuth } from "./../../../middleware/auth.middleware.js";
-import { endPoint } from "./../../Product/product.endPoint.js";
+import { endPoint } from "./../category.endPoint.js";
 
 
 export const categories = {
