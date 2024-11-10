@@ -22,6 +22,6 @@ export const subcategoryType = new GraphQLObjectType({
         categoryId: { type: categoryType },
         createdBy: { type: userTypeGeneral },
         updatedBy: { type: userTypeGeneral },
-        isDeleted: { type: GraphQLBoolean },
+        // isDeleted: { type: GraphQLBoolean },
     }
 })

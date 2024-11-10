@@ -23,6 +23,6 @@ export const couponType = new GraphQLObjectType({
         image: { type: imageType('couponImage') },
         createdBy: { type: userTypeGeneral },
         usedBy: { type: new GraphQLList(userTypeGeneral) },
-        isDeleted: { type: GraphQLBoolean },
+        // isDeleted: { type: GraphQLBoolean },
     }
 })

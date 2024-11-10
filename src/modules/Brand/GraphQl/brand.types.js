@@ -21,6 +21,6 @@ export const brandType = new GraphQLObjectType({
         image: { type: imageType('brandImage') },
         createdBy: { type: userTypeGeneral },
         updatedBy: { type: userTypeGeneral },
-        isDeleted: { type: GraphQLBoolean },
+        // isDeleted: { type: GraphQLBoolean },
     }
 })

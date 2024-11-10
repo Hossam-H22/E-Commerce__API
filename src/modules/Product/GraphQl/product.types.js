@@ -51,7 +51,7 @@ export const productType = new GraphQLObjectType({
         numOfRating: { type: GraphQLInt },
         avgRating: { type: GraphQLFloat },
         totalRating: { type: GraphQLFloat },
-        isDeleted: { type: GraphQLBoolean },
+        // isDeleted: { type: GraphQLBoolean },
         createdBy: { type: userType },
         updatedBy: { type: userType },
     }

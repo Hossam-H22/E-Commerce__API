@@ -19,6 +19,6 @@ export const categoryType = new GraphQLObjectType({
         image: { type: imageType('categoryImage') },
         createdBy: { type: userTypeGeneral },
         updatedBy: { type: userTypeGeneral },
-        isDeleted: { type: GraphQLBoolean },
+        // isDeleted: { type: GraphQLBoolean },
     }
 })
